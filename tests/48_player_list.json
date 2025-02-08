@@ -1,0 +1,290 @@
+[
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 4000,
+    "id": "Walker",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 9, "Archer": 9 },
+    "mmr": 4200,
+    "id": "Relynar",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 4300,
+    "id": "Quadri",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 4700,
+    "id": "Silver",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 3800,
+    "id": "orle",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 2000,
+    "id": "Forsee",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 5, "Infantry": 10, "Archer": 0 },
+    "mmr": 2400,
+    "id": "Dovmont",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 4100,
+    "id": "Alim",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 4900,
+    "id": "Relexan",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 6000,
+    "id": "Inspire",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 3800,
+    "id": "Sunny",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 4000,
+    "id": "Artemeis",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 4500,
+    "id": "Zephyr",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 4400,
+    "id": "Vortex",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 5, "Infantry": 10, "Archer": 0 },
+    "mmr": 4800,
+    "id": "Titan",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 9, "Archer": 9 },
+    "mmr": 5000,
+    "id": "Nova",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 4600,
+    "id": "Eclipse",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 4200,
+    "id": "Phantom",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 4300,
+    "id": "Zenith",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 5, "Infantry": 10, "Archer": 0 },
+    "mmr": 4400,
+    "id": "Echo",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 9, "Archer": 9 },
+    "mmr": 4100,
+    "id": "Mirage",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 4300,
+    "id": "Orion",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 4700,
+    "id": "Atlas",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 3900,
+    "id": "Blaze",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 5, "Infantry": 10, "Archer": 0 },
+    "mmr": 5000,
+    "id": "Ares",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 9, "Archer": 9 },
+    "mmr": 4800,
+    "id": "Luna",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 5100,
+    "id": "Helios",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 5300,
+    "id": "Aurora",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 4500,
+    "id": "Blitz",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 5, "Infantry": 10, "Archer": 0 },
+    "mmr": 4700,
+    "id": "Viper",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 9, "Archer": 9 },
+    "mmr": 4900,
+    "id": "Sable",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 4200,
+    "id": "Onyx",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 4600,
+    "id": "Raven",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 4400,
+    "id": "Frost",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 5, "Infantry": 10, "Archer": 0 },
+    "mmr": 4800,
+    "id": "Storm",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 9, "Archer": 9 },
+    "mmr": 5200,
+    "id": "Tempest",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 5000,
+    "id": "Inferno",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 4800,
+    "id": "Sparrow",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 4700,
+    "id": "Falcon",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 5, "Infantry": 10, "Archer": 0 },
+    "mmr": 5100,
+    "id": "Valkyrie",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 9, "Archer": 9 },
+    "mmr": 5300,
+    "id": "Hawk",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 4600,
+    "id": "Lancer",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 5500,
+    "id": "Mercury",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 5, "Archer": 10 },
+    "mmr": 4900,
+    "id": "Solstice",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 5, "Infantry": 10, "Archer": 0 },
+    "mmr": 5200,
+    "id": "Draco",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 9, "Archer": 9 },
+    "mmr": 5400,
+    "id": "Quantum",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 0, "Infantry": 10, "Archer": 5 },
+    "mmr": 5000,
+    "id": "Pulse",
+    "igl": false
+  },
+  {
+    "proficiency": { "Cavalry": 10, "Infantry": 5, "Archer": 0 },
+    "mmr": 5100,
+    "id": "Mystic",
+    "igl": false
+  }
+]
