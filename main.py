@@ -5,7 +5,7 @@ from matchmaking.team import Team
 from utility.statistic_helpers import get_disparity_between_teams
 from matchmaking.match_manager import find_best_team_splits
 
-test_data_path = "tests/48_player_list.json"
+test_data_path = "tests/12_player_list.json"
 
 with open(test_data_path, "r") as file:
     players_data = json.load(file)
