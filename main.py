@@ -1,11 +1,7 @@
 import json
-from matchmaking.player import Player
-import utility.print_helpers as util
-from matchmaking.team import Team
-from utility.statistic_helpers import get_disparity_between_teams
-from matchmaking.match_manager import find_best_team_splits
+from matchmaking import Player, Team, find_best_global_matches
 
-test_data_path = "tests/12_player_list.json"
+test_data_path = "tests/48_player_list.json"
 
 with open(test_data_path, "r") as file:
     players_data = json.load(file)
@@ -26,7 +22,7 @@ for i in range(len(players)):
         team_2.add_player(players[i])
 
 
-matches = find_best_team_splits(players)
+matches = find_best_global_matches(players)
 
 for m in matches:
     m.print()

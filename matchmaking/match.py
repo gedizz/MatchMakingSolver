@@ -1,5 +1,5 @@
-from matchmaking.game import Game
-from matchmaking.team import Team
+from .game import Game
+from .team import Team
 from utility.statistic_helpers import get_disparity_between_teams
 
 

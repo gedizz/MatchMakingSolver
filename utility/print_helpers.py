@@ -1,4 +1,4 @@
-from matchmaking.player import Player
+from matchmaking import Player
 
 def print_formatted_player(player: Player):
     print(f"Player {player.id}:")

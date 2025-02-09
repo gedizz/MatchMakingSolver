@@ -1,6 +1,5 @@
-from matchmaking.round import Round
-from matchmaking.team import Team
-
+from .team import Team
+from .round import Round
 
 class Game:
     def __init__(self, game_id: int, teams: list[Team]):

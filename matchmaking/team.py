@@ -1,4 +1,4 @@
-from matchmaking.player import Player
+from matchmaking import Player
 from typing import List
 
 class Team:
@@ -18,6 +18,7 @@ class Team:
 
     def print(self):
         print(f"{self.name}:")
-        for p in self.players:
+        for p in sorted(self.players, key=lambda p: p.mmr, reverse=True):
             print(f" - {p}")
+
 
