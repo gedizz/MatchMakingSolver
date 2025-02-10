@@ -18,6 +18,7 @@ class Match:
         self.team1 = team1
         self.team2 = team2
         self.map = map
+        self.outcome_probability = 0
 
     def add_game(self, game: Game):
         """
@@ -38,6 +39,11 @@ class Match:
         self.team1.print()
         self.team2.print()
         print(f"MMR Disparity: {get_disparity_between_teams(self.team1, self.team2)}")
+        print(f"Team 1 win probability = {self.outcome_probability * 100:.1f}%")
+
 
     def change_map(self, new_map):
         self.map = new_map
+
+    def set_outcome(self, probabilty):
+        self.outcome_probability = probabilty
