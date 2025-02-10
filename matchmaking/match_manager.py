@@ -221,7 +221,7 @@ def find_best_global_matches(players: List) -> List[Match]:
     elif n == 36:
         team_split_iterations = 2772  # Runtime: <40 seconds
     elif n == 48:
-        team_split_iterations = 200   # Runtime: <60 seconds
+        team_split_iterations = 3696  # Runtime: <60 seconds
     else:
         team_split_iterations = 20  # fallback
 
