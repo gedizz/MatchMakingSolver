@@ -21,8 +21,10 @@ def get_players_key(players: List[Player]) -> Tuple:
 @lru_cache(maxsize=None)
 def cached_best_class_assignment(players_key: Tuple) -> Tuple[float, Tuple[str, ...]]:
     avg_scores = {"Infantry": 160, "Cavalry": 200, "Archer": 250}
-    ideal_counts = {"Cavalry": 1, "Archer": 1, "Infantry": 4}
+    # NEW: The ideal assignment is now 2 Cavalry, 0 Archers, 4 Infantry.
+    ideal_counts = {"Cavalry": 2, "Archer": 0, "Infantry": 4}
     penalty_weight = 50  # tuning parameter
+    baseline = 5000.0  # baseline MMR for normalization (if needed)
 
     n = len(players_key)
     # Compute an upper bound.
@@ -30,7 +32,7 @@ def cached_best_class_assignment(players_key: Tuple) -> Tuple[float, Tuple[str, 
     for entry in players_key:
         # entry = (id, mmr, proficiency_items)
         prof_dict = dict(entry[2])
-        max_val = max((prof_dict.get(role, 0) / 10.0) * avg_scores[role]
+        max_val = max((entry[1] / baseline) * (prof_dict.get(role, 0) / 10.0) * avg_scores[role]
                       for role in ["Infantry", "Cavalry", "Archer"])
         max_possible += max_val
 
@@ -42,7 +44,7 @@ def cached_best_class_assignment(players_key: Tuple) -> Tuple[float, Tuple[str, 
         total_score = 0
         for entry, role in zip(players_key, assignment):
             prof_dict = dict(entry[2])
-            total_score += (prof_dict.get(role, 0) / 10.0) * avg_scores[role]
+            total_score += (entry[1] / baseline) * (prof_dict.get(role, 0) / 10.0) * avg_scores[role]
         penalty = penalty_weight * (
                 abs(assignment.count("Cavalry") - ideal_counts["Cavalry"]) +
                 abs(assignment.count("Archer") - ideal_counts["Archer"]) +
@@ -205,7 +207,6 @@ def improve_partition(partition: List[List], iterations: int = 100, team_split_i
 # =======================================================
 # GLOBAL MATCHMAKING
 # =======================================================
-
 def find_best_global_matches(players: List) -> List[Match]:
     n = len(players)
     if n not in {12, 24, 36, 48}:
@@ -215,13 +216,13 @@ def find_best_global_matches(players: List) -> List[Match]:
 
     # Determine team split iterations based on player count. Max is 924, 1848, 2772, 3696
     if n == 12:
-        team_split_iterations = 924   # Runtime: <1  seconds
+        team_split_iterations = 924  # Exhaustive search for 12 players.
     elif n == 24:
-        team_split_iterations = 1848  # Runtime: <20 seconds
+        team_split_iterations = 1848
     elif n == 36:
-        team_split_iterations = 2772  # Runtime: <40 seconds
+        team_split_iterations = 2772
     elif n == 48:
-        team_split_iterations = 3696  # Runtime: <60 seconds
+        team_split_iterations = 3696
     else:
         team_split_iterations = 20  # fallback
 
