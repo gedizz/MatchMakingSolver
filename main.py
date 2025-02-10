@@ -7,7 +7,7 @@ with open(config_path, "r") as config_file:
     maps_config = json.load(config_file)
 
 # Load player data.
-test_data_path = "tests/12_player_list.json"
+test_data_path = "tests/48_player_list_high_disparity.json"
 with open(test_data_path, "r") as file:
     players_data = json.load(file)
 

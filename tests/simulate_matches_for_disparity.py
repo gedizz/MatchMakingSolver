@@ -33,7 +33,7 @@ def generate_random_players(num_players: int):
             "Infantry": levels[1],
             "Archer": levels[2]
         }
-        mmr = random.randint(2000, 6000)
+        mmr = random.randint(2000, 8000)
         player_id = f"Player_{i + 1}"
         igl = False
 
@@ -98,7 +98,7 @@ def simulate_match_outcome(matches):
 
 def main():
     NUM_SIMULATIONS = 10
-    NUM_PLAYERS = 12  # Must be 12, 24, 36, or 48 for the matchmaking logic.
+    NUM_PLAYERS = 36  # Must be 12, 24, 36, or 48 for the matchmaking logic.
 
     # Load the maps configuration.
     maps_config = load_config()
@@ -132,7 +132,7 @@ def main():
 
 
         print(f"\nSimulation {sim} Disparity Statistics:")
-        print(f"Mean: {mean_disp}")
+        print(f"Mean: {mean_disp:.2f}")
         print(f"Median: {median_disp}")
         print(f"Mode: {mode_disp}")
 
