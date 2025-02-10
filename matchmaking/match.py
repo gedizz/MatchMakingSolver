@@ -4,7 +4,7 @@ from utility.statistic_helpers import get_disparity_between_teams
 
 
 class Match:
-    def __init__(self, id: int, team1: Team, team2: Team):
+    def __init__(self, id: int, team1: Team, team2: Team, map: str):
         """
         Initializes a Match object.
 
@@ -17,6 +17,7 @@ class Match:
         self.winner = None
         self.team1 = team1
         self.team2 = team2
+        self.map = map
 
     def add_game(self, game: Game):
         """
@@ -33,7 +34,11 @@ class Match:
 
     def print(self):
         print(f"\n########### Match {self.id} ###########\n")
+        print(f"Map: {self.map}")
         self.team1.print()
         self.team2.print()
         print(f"MMR Disparity: {get_disparity_between_teams(self.team1, self.team2)}")
         print("-" * 40)
+
+    def change_map(self, new_map):
+        self.map = new_map

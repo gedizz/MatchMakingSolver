@@ -1,28 +1,47 @@
+import json
 import random
 import statistics
 from matchmaking import Player, Team, find_best_global_matches
 
+def load_config():
+    """
+    Loads the maps configuration from the ./config folder.
+    Adjust the filename if necessary.
+    """
+    config_path = "../config/config-matchmaking.json"  # Update if your config file has a different name.
+    with open(config_path, "r") as config_file:
+        return json.load(config_file)
+
+
+import random
+from matchmaking import Player  # Ensure Player is imported from your matchmaking module
+
 
 def generate_random_players(num_players: int):
     """
-    Generates a list of players with random attributes.
-    Each player has:
-      - proficiency: a dict with keys "Cavalry", "Infantry", and "Archer"
-      - mmr: an integer between 2000 and 6000
-      - player_id: a unique identifier string (e.g., "Player_1")
-      - igl: a boolean (initially set to False, then the top 8 players by MMR are set to True)
+    Generates a list of players with fixed proficiency values:
+      - Each player gets a proficiency permutation: one class at 10, one at 5, and one at 0.
+      - mmr: a random integer between 2000 and 6000.
+      - player_id: a unique identifier string (e.g., "Player_1").
+      - igl: a boolean (initially set to False, then the top 8 players by MMR are set to True).
     """
     players = []
     for i in range(num_players):
+        # Create a random permutation of the proficiency values [10, 5, 0]
+        levels = [10, 5, 0]
+        random.shuffle(levels)
+
+        # Assign the values to the classes in a fixed order.
         proficiency = {
-            "Cavalry": random.choice([0, 5, 10]),
-            "Infantry": random.choice([0, 5, 10]),
-            "Archer": random.choice([0, 5, 10])
+            "Cavalry": levels[0],
+            "Infantry": levels[1],
+            "Archer": levels[2]
         }
         mmr = random.randint(2000, 6000)
         player_id = f"Player_{i + 1}"
         igl = False
-        # Create a player (assumes your Player class accepts these parameters)
+
+        # Create a Player (assumes your Player class accepts these parameters)
         player = Player(proficiency=proficiency, mmr=mmr, player_id=player_id, igl=igl)
         players.append(player)
 
@@ -40,7 +59,8 @@ def simulate_match_outcome(matches):
     """
     For each match:
       1. Calculate the match disparity (the absolute difference between the total MMRs of the two teams)
-      2. Print out the match details (using each team's print method and showing the total MMRs)
+      2. Print out the match details (including the selected map, using each team's print method,
+         and showing the total MMRs)
       3. Then, randomly choose a winner (team1 or team2) and update players' MMR accordingly:
            - +25 MMR for each player on the winning team
            - -25 MMR for each player on the losing team
@@ -59,6 +79,7 @@ def simulate_match_outcome(matches):
 
         # Print match details BEFORE updating any MMR.
         print(f"\nMatch {match.id} Results:")
+        print(f"Map: {match.map}")
         print(f"Disparity: {disparity}")
         print("Team 1:")
         t1.print()
@@ -80,7 +101,7 @@ def simulate_match_outcome(matches):
         print(f"\n{winning_team_name} wins!")
         print("-" * 40)
 
-        # After printing the details, update the MMR values.
+        # Update MMR values after match outcome.
         for player in winning_team.players:
             player.mmr += 25
         for player in losing_team.players:
@@ -88,10 +109,12 @@ def simulate_match_outcome(matches):
 
     return disparities
 
-
 def main():
-    NUM_SIMULATIONS = 10
+    NUM_SIMULATIONS = 1
     NUM_PLAYERS = 48  # Must be 12, 24, 36, or 48 for the matchmaking logic.
+
+    # Load the maps configuration.
+    maps_config = load_config()
 
     # Generate the initial pool of players.
     players = generate_random_players(NUM_PLAYERS)
@@ -102,7 +125,7 @@ def main():
     for sim in range(1, NUM_SIMULATIONS + 1):
         print(f"\n{'=' * 10} Simulation {sim} {'=' * 10}\n")
 
-        # Form matches using the current players (with their updated MMRs).
+        # Form matches using the current players (with their updated MMRs) and the maps configuration.
         matches = find_best_global_matches(players)
 
         # Simulate match outcomes and print details.
@@ -124,7 +147,6 @@ def main():
     # Compute and print the overall average disparity across all simulations.
     overall_avg = sum(all_disparities) / len(all_disparities) if all_disparities else 0
     print(f"\nTotal average disparity over {NUM_SIMULATIONS} simulations: {overall_avg}")
-
 
 if __name__ == '__main__':
     main()

@@ -1,7 +1,7 @@
 from itertools import combinations
 from matchmaking import Team, Player, Match
 from typing import List, Tuple
-
+import random
 
 def find_best_team_split(match_players: List) -> Tuple[Team, Team, float]:
     """
@@ -107,6 +107,23 @@ def find_best_global_matches(players: List) -> List[Match]:
 
     # Finally, create Match objects for each partition using the computed best splits.
     matches = []
+
+    # generate a random map
+    map_names = [
+        "Xauna",
+        "Echerion",
+        "Trading post",
+        "Town outskirts",
+        "Sharis",
+        "Urikskalaar",
+        "Zendyar",
+        "Port Omor"
+    ]
+
+    # Pick a random map from the list.
+    selected_map = random.choice(map_names)
+
     for i, (team1, team2) in enumerate(best_splits):
-        matches.append(Match(i + 1, team1, team2))
+        selected_map = random.choice(map_names)
+        matches.append(Match(i + 1, team1, team2, selected_map))
     return matches
