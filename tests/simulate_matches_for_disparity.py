@@ -13,31 +13,32 @@ def load_config():
     with open(config_path, "r") as config_file:
         return json.load(config_file)
 
+
 def generate_random_players(num_players: int):
     """
-    Generates a list of players with fixed proficiency values:
-      - Each player gets a proficiency permutation: one class at 10, one at 5, and one at 0.
-      - mmr: a random integer between 2000 and 6000.
+    Generates a list of players with proficiency values:
+      - One class is set to 10.
+      - The other two classes are assigned random values between 0.0 and 9.9.
+      - mmr: a random integer between 2000 and 8000.
       - player_id: a unique identifier string (e.g., "Player_1").
       - igl: a boolean (initially set to False, then the top 8 players by MMR are set to True).
     """
     players = []
-    for i in range(num_players):
-        # Create a random permutation of the proficiency values [10, 5, 0]
-        levels = [10, 5, 0]
-        random.shuffle(levels)
+    classes = ["Cavalry", "Infantry", "Archer"]
 
-        # Assign the values to the classes in a fixed order.
-        proficiency = {
-            "Cavalry": levels[0],
-            "Infantry": levels[1],
-            "Archer": levels[2]
-        }
+    for i in range(num_players):
+        # Randomly choose one class to be 10
+        max_class = random.choice(classes)
+
+        # Assign random values between 0.0 and 9.9 to the other two classes
+        proficiency = {cls: round(random.uniform(0.0, 9.9), 1) for cls in classes}
+        proficiency[max_class] = 10  # Ensure one class is exactly 10
+
         mmr = random.randint(2000, 8000)
         player_id = f"Player_{i + 1}"
         igl = False
 
-        # Create a Player (assumes your Player class accepts these parameters)
+        # Create a Player object
         player = Player(proficiency=proficiency, mmr=mmr, player_id=player_id, igl=igl)
         players.append(player)
 
@@ -49,6 +50,7 @@ def generate_random_players(num_players: int):
         player.igl = True
 
     return players
+
 
 def simulate_match_outcome(matches):
     """
@@ -98,7 +100,7 @@ def simulate_match_outcome(matches):
 
 def main():
     NUM_SIMULATIONS = 10
-    NUM_PLAYERS = 48  # Must be 12, 24, 36, or 48 for the matchmaking logic.
+    NUM_PLAYERS = 24  # Must be 12, 24, 36, or 48 for the matchmaking logic.
 
     # Load the maps configuration.
     maps_config = load_config()
