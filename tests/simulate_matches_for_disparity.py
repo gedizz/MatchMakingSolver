@@ -73,15 +73,7 @@ def simulate_match_outcome(matches):
         disparities.append(disparity)
 
         # Print match details BEFORE updating any MMR.
-        print(f"\nMatch {match.id} Results:")
-        print(f"Map: {match.map}")
-        print(f"Disparity: {disparity}")
-        print("Team 1:")
-        t1.print()
-        print(f"Team 1 Total MMR: {t1.total_mmr()}\n")
-        print("Team 2:")
-        t2.print()
-        print(f"Team 2 Total MMR: {t2.total_mmr()}")
+        match.print()
 
         # Now simulate outcome: randomly choose a winner.
         if random.random() < 0.5:
@@ -106,7 +98,7 @@ def simulate_match_outcome(matches):
 
 def main():
     NUM_SIMULATIONS = 10
-    NUM_PLAYERS = 24  # Must be 12, 24, 36, or 48 for the matchmaking logic.
+    NUM_PLAYERS = 12  # Must be 12, 24, 36, or 48 for the matchmaking logic.
 
     # Load the maps configuration.
     maps_config = load_config()

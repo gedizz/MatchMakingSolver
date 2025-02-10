@@ -33,12 +33,11 @@ class Match:
         #return f"Match(match_id={self.match_id}, winner={self.winner}, games={len(self.games)})"
 
     def print(self):
-        print(f"\n########### Match {self.id} ###########\n")
+        print(f"########### Match {self.id} ###########\n")
         print(f"Map: {self.map}")
         self.team1.print()
         self.team2.print()
         print(f"MMR Disparity: {get_disparity_between_teams(self.team1, self.team2)}")
-        print("-" * 40)
 
     def change_map(self, new_map):
         self.map = new_map
