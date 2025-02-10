@@ -108,6 +108,7 @@ def main():
 
     # To collect disparity data over all simulation rounds.
     all_disparities = []
+    all_outcomes = []
 
     for sim in range(1, NUM_SIMULATIONS + 1):
         print(f"\n{'=' * 10} Simulation {sim} {'=' * 10}\n")
@@ -120,6 +121,8 @@ def main():
         # Simulate match outcomes and print details.
         sim_disparities = simulate_match_outcome(matches)
         all_disparities.extend(sim_disparities)
+        for m in matches:
+            all_outcomes.append(m.outcome_probability)
 
         # Calculate and print simulation statistics: mean, median, and mode.
         mean_disp = statistics.mean(sim_disparities)
@@ -127,10 +130,12 @@ def main():
         modes = statistics.multimode(sim_disparities)
         mode_disp = modes[0] if modes else None
 
+
         print(f"\nSimulation {sim} Disparity Statistics:")
         print(f"Mean: {mean_disp}")
         print(f"Median: {median_disp}")
         print(f"Mode: {mode_disp}")
+
 
         # End timing this simulation and print runtime.
         end_time = time.perf_counter()
@@ -146,9 +151,12 @@ def main():
     else:
         overall_avg = overall_min = overall_max = 0
 
+    avg_outcome = sum(all_outcomes) / (NUM_SIMULATIONS * (NUM_PLAYERS / 12))
+
     print(f"\nTotal average disparity over {NUM_SIMULATIONS} simulations: {overall_avg}")
     print(f"Overall minimum disparity: {overall_min}")
     print(f"Overall maximum disparity: {overall_max}")
+    print(f"Avg Outcome: {avg_outcome*100:.2f}%")
 
 if __name__ == '__main__':
     main()
