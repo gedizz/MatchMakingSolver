@@ -1,0 +1,482 @@
+[
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 5,
+      "Archer": 0
+    },
+    "mmr": 7733,
+    "id": "Player_4",
+    "igl": true
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 0,
+      "Archer": 10
+    },
+    "mmr": 7673,
+    "id": "Player_22",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 0,
+      "Archer": 10
+    },
+    "mmr": 5756,
+    "id": "Player_1",
+    "igl": true
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 10,
+      "Archer": 5
+    },
+    "mmr": 4448,
+    "id": "Player_47",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 3929,
+    "id": "Player_37",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 5,
+      "Archer": 0
+    },
+    "mmr": 3371,
+    "id": "Player_27",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 6783,
+    "id": "Player_23",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 0,
+      "Archer": 5
+    },
+    "mmr": 5536,
+    "id": "Player_25",
+    "igl": true
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 10,
+      "Archer": 5
+    },
+    "mmr": 5452,
+    "id": "Player_46",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 0,
+      "Archer": 10
+    },
+    "mmr": 5451,
+    "id": "Player_12",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 5434,
+    "id": "Player_26",
+    "igl": true
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 0,
+      "Archer": 10
+    },
+    "mmr": 4254,
+    "id": "Player_2",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 10,
+      "Archer": 5
+    },
+    "mmr": 6236,
+    "id": "Player_17",
+    "igl": true
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 5,
+      "Archer": 0
+    },
+    "mmr": 5493,
+    "id": "Player_3",
+    "igl": true
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 5142,
+    "id": "Player_41",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 4509,
+    "id": "Player_33",
+    "igl": true
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 10,
+      "Archer": 5
+    },
+    "mmr": 4027,
+    "id": "Player_40",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 3170,
+    "id": "Player_10",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 5267,
+    "id": "Player_9",
+    "igl": true
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 5247,
+    "id": "Player_24",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 4812,
+    "id": "Player_42",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 4532,
+    "id": "Player_7",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 0,
+      "Archer": 5
+    },
+    "mmr": 4440,
+    "id": "Player_8",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 10,
+      "Archer": 5
+    },
+    "mmr": 4278,
+    "id": "Player_11",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 5052,
+    "id": "Player_16",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 4024,
+    "id": "Player_38",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 5,
+      "Archer": 0
+    },
+    "mmr": 3626,
+    "id": "Player_29",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 0,
+      "Archer": 5
+    },
+    "mmr": 3010,
+    "id": "Player_28",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 5,
+      "Archer": 0
+    },
+    "mmr": 2821,
+    "id": "Player_39",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 1959,
+    "id": "Player_44",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 4507,
+    "id": "Player_45",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 0,
+      "Archer": 10
+    },
+    "mmr": 4022,
+    "id": "Player_13",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 3231,
+    "id": "Player_36",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 10,
+      "Archer": 5
+    },
+    "mmr": 3097,
+    "id": "Player_21",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 3054,
+    "id": "Player_18",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 0,
+      "Archer": 10
+    },
+    "mmr": 2581,
+    "id": "Player_20",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 5250,
+    "id": "Player_32",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 10,
+      "Archer": 5
+    },
+    "mmr": 3244,
+    "id": "Player_19",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 2986,
+    "id": "Player_30",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 0,
+      "Archer": 10
+    },
+    "mmr": 2653,
+    "id": "Player_34",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 1783,
+    "id": "Player_14",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 5,
+      "Archer": 0
+    },
+    "mmr": 1434,
+    "id": "Player_15",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 5,
+      "Infantry": 10,
+      "Archer": 0
+    },
+    "mmr": 5235,
+    "id": "Player_5",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 0,
+      "Archer": 5
+    },
+    "mmr": 3637,
+    "id": "Player_43",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 0,
+      "Archer": 5
+    },
+    "mmr": 2816,
+    "id": "Player_35",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 2586,
+    "id": "Player_31",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 10,
+      "Infantry": 0,
+      "Archer": 5
+    },
+    "mmr": 1832,
+    "id": "Player_6",
+    "igl": false
+  },
+  {
+    "proficiency": {
+      "Cavalry": 0,
+      "Infantry": 5,
+      "Archer": 10
+    },
+    "mmr": 1244,
+    "id": "Player_48",
+    "igl": false
+  }
+]
