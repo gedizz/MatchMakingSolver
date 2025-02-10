@@ -1,6 +1,7 @@
 import json
 import random
 import statistics
+import time  # Added to measure runtime stats
 from matchmaking import Player, Team, find_best_global_matches
 
 def load_config():
@@ -11,11 +12,6 @@ def load_config():
     config_path = "../config/config-matchmaking.json"  # Update if your config file has a different name.
     with open(config_path, "r") as config_file:
         return json.load(config_file)
-
-
-import random
-from matchmaking import Player  # Ensure Player is imported from your matchmaking module
-
 
 def generate_random_players(num_players: int):
     """
@@ -53,7 +49,6 @@ def generate_random_players(num_players: int):
         player.igl = True
 
     return players
-
 
 def simulate_match_outcome(matches):
     """
@@ -110,8 +105,8 @@ def simulate_match_outcome(matches):
     return disparities
 
 def main():
-    NUM_SIMULATIONS = 1500
-    NUM_PLAYERS = 48  # Must be 12, 24, 36, or 48 for the matchmaking logic.
+    NUM_SIMULATIONS = 10
+    NUM_PLAYERS = 24  # Must be 12, 24, 36, or 48 for the matchmaking logic.
 
     # Load the maps configuration.
     maps_config = load_config()
@@ -124,6 +119,8 @@ def main():
 
     for sim in range(1, NUM_SIMULATIONS + 1):
         print(f"\n{'=' * 10} Simulation {sim} {'=' * 10}\n")
+        # Start timing this simulation.
+        start_time = time.perf_counter()
 
         # Form matches using the current players (with their updated MMRs) and the maps configuration.
         matches = find_best_global_matches(players)
@@ -142,11 +139,24 @@ def main():
         print(f"Mean: {mean_disp}")
         print(f"Median: {median_disp}")
         print(f"Mode: {mode_disp}")
+
+        # End timing this simulation and print runtime.
+        end_time = time.perf_counter()
+        runtime = end_time - start_time
+        print(f"Simulation {sim} Runtime: {runtime:.4f} seconds")
         print("=" * 40)
 
-    # Compute and print the overall average disparity across all simulations.
-    overall_avg = sum(all_disparities) / len(all_disparities) if all_disparities else 0
+    # Compute and print the overall statistics across all simulations.
+    if all_disparities:
+        overall_avg = sum(all_disparities) / len(all_disparities)
+        overall_min = min(all_disparities)
+        overall_max = max(all_disparities)
+    else:
+        overall_avg = overall_min = overall_max = 0
+
     print(f"\nTotal average disparity over {NUM_SIMULATIONS} simulations: {overall_avg}")
+    print(f"Overall minimum disparity: {overall_min}")
+    print(f"Overall maximum disparity: {overall_max}")
 
 if __name__ == '__main__':
     main()

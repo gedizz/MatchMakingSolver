@@ -1,32 +1,106 @@
 from typing import List, Tuple
 import random
-from itertools import combinations  # (Retained for other parts if needed)
+from itertools import product
 from matchmaking import Team, Player, Match
 
+# -------------------------------------------------------
+# Helper: Given 6 players, find the best valid class assignment.
+#
+# Hard limits: ≤2 Cavalry, ≤2 Archer (Infantry is unlimited).
+# Predicted score for a player in a role = (proficiency/10) * avg_score,
+# where avg_scores are given by:
+#   Infantry: 160, Cavalry: 200, Archer: 250.
+#
+# The IDEAL assignment is: 1 Cavalry, 1 Archer, 4 Infantry.
+#
+# To encourage this composition, we subtract a penalty from the total
+# predicted score for each unit of deviation from the ideal counts.
+#
+# We also compute an upper bound (the maximum possible predicted score
+# per player, ignoring hard limits) and if we hit that bound we exit early.
+# -------------------------------------------------------
+def best_class_assignment(players: List[Player]) -> Tuple[float, Tuple[str, ...]]:
+    avg_scores = {"Infantry": 160, "Cavalry": 200, "Archer": 250}
+    # Ideal counts for a team of 6.
+    ideal_counts = {"Cavalry": 1, "Archer": 1, "Infantry": 4}
+    penalty_weight = 50  # Tuning parameter: adjust as needed.
+
+    # Compute an upper bound by summing each player's maximum possible predicted score.
+    max_possible = 0
+    for player in players:
+        max_val = max((player.proficiency.get(role, 0) / 10.0) * avg_scores[role]
+                      for role in ["Infantry", "Cavalry", "Archer"])
+        max_possible += max_val
+
+    best_net_score = -float('inf')
+    best_assignment = None
+    # Iterate over all possible assignments for the 6 players.
+    for assignment in product(["Cavalry", "Infantry", "Archer"], repeat=len(players)):
+        # Enforce hard limits.
+        if assignment.count("Cavalry") > 2 or assignment.count("Archer") > 2:
+            continue
+
+        total_score = 0
+        for player, role in zip(players, assignment):
+            prof = player.proficiency.get(role, 0)
+            total_score += (prof / 10.0) * avg_scores[role]
+
+        # Compute penalty for deviation from the ideal composition.
+        penalty = penalty_weight * (
+            abs(assignment.count("Cavalry") - ideal_counts["Cavalry"]) +
+            abs(assignment.count("Archer") - ideal_counts["Archer"]) +
+            abs(assignment.count("Infantry") - ideal_counts["Infantry"])
+        )
+        net_score = total_score - penalty
+
+        if net_score > best_net_score:
+            best_net_score = net_score
+            best_assignment = assignment
+
+            # Early exit: if net_score is nearly equal to max_possible, stop searching.
+            if abs(net_score - max_possible) < 1e-6:
+                break
+
+    return best_net_score, best_assignment
+
 
 # -------------------------------------------------------
-# Common objective function for evaluating a team split.
+# Compute an objective for a candidate split of two teams.
+#
+# The objective combines:
+#   - Overall MMR disparity,
+#   - Pairwise slot differences,
+#   - A penalty for imbalance in the number of high-MMR players,
+#   - And a penalty for differences in predicted team scores (using best_class_assignment).
+#
+# gamma, beta, and theta are tuning parameters.
 # -------------------------------------------------------
-def compute_objective(team1: Team, team2: Team, gamma: float = 0.1, beta: float = 100,
+def compute_objective(team1: Team, team2: Team, gamma: float = 0.1, beta: float = 100, theta: float = 1,
                       HIGH_MMR_THRESHOLD: int = 7000) -> float:
     # Overall MMR disparity.
     overall_disparity = abs(team1.total_mmr() - team2.total_mmr())
 
-    # Pairwise slot differences: sort players by MMR and compare corresponding slots.
+    # Pairwise slot differences (after sorting players by MMR descending).
     sorted_team1 = sorted(team1.players, key=lambda p: p.mmr, reverse=True)
     sorted_team2 = sorted(team2.players, key=lambda p: p.mmr, reverse=True)
     pairwise_disparity = sum(abs(sorted_team1[i].mmr - sorted_team2[i].mmr) for i in range(6))
 
-    # Count high-MMR players and penalize uneven distributions.
+    # Penalty for imbalance in number of high-MMR players.
     high_count_team1 = sum(1 for p in team1.players if p.mmr >= HIGH_MMR_THRESHOLD)
     high_count_team2 = sum(1 for p in team2.players if p.mmr >= HIGH_MMR_THRESHOLD)
     high_player_penalty = abs(high_count_team1 - high_count_team2)
 
-    return overall_disparity + gamma * pairwise_disparity + beta * high_player_penalty
+    # Compute best predicted team score (using our best_class_assignment function).
+    pred_score_team1, _ = best_class_assignment(team1.players)
+    pred_score_team2, _ = best_class_assignment(team2.players)
+    class_diff = abs(pred_score_team1 - pred_score_team2)
+
+    # Total objective.
+    return overall_disparity + gamma * pairwise_disparity + beta * high_player_penalty + theta * class_diff
 
 
 # -------------------------------------------------------
-# Heuristic split: sort by MMR and assign players alternately.
+# Fast heuristic split: sort by MMR and alternate assignment.
 # -------------------------------------------------------
 def heuristic_team_split(match_players: List) -> Tuple[Team, Team, float]:
     sorted_players = sorted(match_players, key=lambda p: p.mmr, reverse=True)
@@ -37,32 +111,27 @@ def heuristic_team_split(match_players: List) -> Tuple[Team, Team, float]:
             team1.add_player(player)
         else:
             team2.add_player(player)
-    objective = compute_objective(team1, team2)
-    return team1, team2, objective
+    obj = compute_objective(team1, team2)
+    return team1, team2, obj
 
 
 # -------------------------------------------------------
-# Local search improvement: try a limited number of random swaps.
+# Limited local search: start with a heuristic split and try random swaps between the two teams.
 # -------------------------------------------------------
 def improved_team_split(match_players: List, iterations: int = 50) -> Tuple[Team, Team, float]:
-    # Start with the heuristic split.
     best_team1, best_team2, best_score = heuristic_team_split(match_players)
-
-    # Extract lists of players for easier swapping.
     best_team1_players = best_team1.players[:]
     best_team2_players = best_team2.players[:]
 
     for _ in range(iterations):
-        # Randomly select one player from each team.
+        # Randomly select one player from each team to swap.
         i = random.randrange(6)
         j = random.randrange(6)
-
-        # Copy the current best lists and swap the selected players.
         new_team1_players = best_team1_players[:]
         new_team2_players = best_team2_players[:]
         new_team1_players[i], new_team2_players[j] = new_team2_players[j], new_team1_players[i]
 
-        # Rebuild new team objects from the swapped lists.
+        # Rebuild teams.
         new_team1 = Team("Team 1")
         new_team2 = Team("Team 2")
         for p in new_team1_players:
@@ -70,14 +139,12 @@ def improved_team_split(match_players: List, iterations: int = 50) -> Tuple[Team
         for p in new_team2_players:
             new_team2.add_player(p)
 
-        # Compute the new objective.
         new_score = compute_objective(new_team1, new_team2)
         if new_score < best_score:
             best_score = new_score
             best_team1_players = new_team1_players
             best_team2_players = new_team2_players
 
-    # Rebuild the final teams from the best player lists.
     final_team1 = Team("Team 1")
     final_team2 = Team("Team 2")
     for p in best_team1_players:
@@ -89,21 +156,17 @@ def improved_team_split(match_players: List, iterations: int = 50) -> Tuple[Team
 
 
 # -------------------------------------------------------
-# Use the improved team split in place of the exhaustive search.
+# Use the improved team split instead of exhaustive search.
 # -------------------------------------------------------
 def find_best_team_split(match_players: List) -> Tuple[Team, Team, float]:
     return improved_team_split(match_players, iterations=50)
 
 
 # -------------------------------------------------------
-# The remainder of your file remains largely the same.
+# Given a partition (list of groups, each of 12 players), compute the total cost
+# and the corresponding team splits.
 # -------------------------------------------------------
 def calculate_total_cost(partition: List[List]) -> Tuple[float, List[Tuple[Team, Team]]]:
-    """
-    Given a partition (list of groups, each of 12 players), compute the cost for each match.
-    The cost for a match is defined as the minimal MMR disparity achieved by the optimal
-    team split. Returns the sum of disparities (global cost) and the corresponding team splits.
-    """
     total_cost = 0.0
     splits = []
     for group in partition:
@@ -113,50 +176,37 @@ def calculate_total_cost(partition: List[List]) -> Tuple[float, List[Tuple[Team,
     return total_cost, splits
 
 
+# -------------------------------------------------------
+# Given a list of players, partition them into matches (each with 12 players)
+# and assign two teams per match such that overall imbalance is minimized.
+#
+# After the teams are balanced in terms of MMR and predicted performance (with class
+# assignments considered), we also set each player's class using their best assignment.
+# -------------------------------------------------------
 def find_best_global_matches(players: List) -> List[Match]:
-    """
-    Given a list of players (whose count is 12, 24, 36, or 48), partition them into matches
-    (each containing 12 players) and assign two teams per match such that the overall
-    MMR imbalance is minimized across all matches.
-
-    This function starts with an initial partition (slicing the players list) and then
-    attempts to improve the grouping by swapping players between matches.
-
-    Returns:
-        A list of Match objects with balanced team splits.
-    """
     n = len(players)
     if n not in {12, 24, 36, 48}:
         raise ValueError("Invalid number of players. Must be 12, 24, 36, or 48 players.")
 
     num_matches = n // 12
-    # Initial partition: simply slice the players list.
     partition = [players[i * 12:(i + 1) * 12] for i in range(num_matches)]
     best_cost, best_splits = calculate_total_cost(partition)
 
     improved = True
-    # Iterative improvement: try swapping players between different groups.
     while improved:
         improved = False
-        # Loop over every pair of matches.
         for i in range(num_matches):
             for j in range(i + 1, num_matches):
-                # Loop over each player in match i and each player in match j.
                 for p in range(12):
                     for q in range(12):
-                        # Create a new partition by copying the current partition.
                         new_partition = [group[:] for group in partition]
-
-                        # Swap one player from match i with one from match j.
                         new_partition[i][p], new_partition[j][q] = new_partition[j][q], new_partition[i][p]
-
                         new_cost, new_splits = calculate_total_cost(new_partition)
                         if new_cost < best_cost:
                             best_cost = new_cost
                             partition = new_partition
                             best_splits = new_splits
                             improved = True
-                            # Once a beneficial swap is found, break out to restart scanning.
                             break
                     if improved:
                         break
@@ -165,7 +215,6 @@ def find_best_global_matches(players: List) -> List[Match]:
             if improved:
                 break
 
-    # Finally, create Match objects for each partition using the computed best splits.
     matches = []
     map_names = [
         "Xauna",
@@ -178,7 +227,15 @@ def find_best_global_matches(players: List) -> List[Match]:
         "Port Omor"
     ]
 
+    # Before creating Match objects, set each player's class based on best assignment.
+    for team_pair in best_splits:
+        for team in team_pair:
+            _, assignment = best_class_assignment(team.players)
+            for player, role in zip(team.players, assignment):
+                player.set_class(role)
+
     for i, (team1, team2) in enumerate(best_splits):
         selected_map = random.choice(map_names)
         matches.append(Match(i + 1, team1, team2, selected_map))
+
     return matches
