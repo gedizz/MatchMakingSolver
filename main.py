@@ -1,34 +1,39 @@
 import json
+import sys
 from matchmaking import Player, Team, find_best_global_matches
 
-# Load the configuration from the ./config folder.
-config_path = "./config/config-matchmaking.json"  # Update this if your config file has a different name.
+# Load the maps configuration (if needed)
+config_path = "./config/config-matchmaking.json"  # Ensure this file exists in MatchMakingSolver/config/
 with open(config_path, "r") as config_file:
     maps_config = json.load(config_file)
 
-# Load player data.
-test_data_path = "tests/12_all_inf.json"
-with open(test_data_path, "r") as file:
+# If a player data file is provided as a command-line argument, use it; otherwise, use a default.
+if len(sys.argv) > 1:
+    players_data_path = sys.argv[1]
+else:
+    players_data_path = "tests/24_player_list.json"  # default file path; adjust as needed
+
+with open(players_data_path, "r") as file:
     players_data = json.load(file)
 
 # Convert the JSON player data into Player objects.
 players = Player.from_json(players_data)
 
-# Find the best global matches using both the players and the maps configuration.
+# Validate the number of players.
+n = len(players)
+if n not in [12, 24, 36, 48]:
+    print(json.dumps({"error": f"Invalid number of players: {n}. Must be 12, 24, 36, or 48."}))
+    sys.exit(1)
+
+# Find the best global matches (this should return a list of Match objects).
 matches = find_best_global_matches(players)
 
-# Print out each match. The Match object now includes a map name.
+# Build the output JSON.
+result = []
 for m in matches:
-    m.print()
+    team1_ids = [p.id for p in m.team1.players]
+    team2_ids = [p.id for p in m.team2.players]
+    result.append({"team1": team1_ids, "team2": team2_ids})
 
-# (Optional alternative code that you previously used for testing.)
-# team_1 = Team("Team 1")
-# team_2 = Team("Team 2")
-# for i in range(len(players)):
-#     if i % 2 == 0:
-#         team_1.add_player(players[i])
-#     else:
-#         team_2.add_player(players[i])
-#
-# team_1.print()
-# team_2.print()
+# Output the JSON object to stdout.
+print(json.dumps({"matches": result}))
