@@ -230,7 +230,7 @@ def find_best_global_matches(players: List) -> List[Match]:
                 player.set_class(role)
 
     # Now, instead of faction-based matching, assign random factions.
-    factions = ["Aserai", "Battania", "Empire", "Khuzait", "Sturgia", "Vlandia"]
+    factions = ["aserai", "battania", "empire", "khuzait", "sturgia", "vlandia"]
 
     # For each team pair, assign each team a random faction.
     for team_pair in best_splits:
