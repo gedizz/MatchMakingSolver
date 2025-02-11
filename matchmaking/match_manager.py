@@ -21,10 +21,10 @@ def get_players_key(players: List[Player]) -> Tuple:
 @lru_cache(maxsize=None)
 def cached_best_class_assignment(players_key: Tuple) -> Tuple[float, Tuple[str, ...]]:
     avg_scores = {"Infantry": 160, "Cavalry": 200, "Archer": 250}
-    # NEW: The ideal assignment is now 2 Cavalry, 0 Archers, 4 Infantry.
+    # The ideal assignment is now 2 Cavalry, 0 Archers, 4 Infantry.
     ideal_counts = {"Cavalry": 2, "Archer": 0, "Infantry": 4}
     penalty_weight = 50  # tuning parameter
-    baseline = 5000.0  # baseline MMR for normalization (if needed)
+    baseline = 5000.0  # baseline MMR for normalization
 
     n = len(players_key)
     # Compute an upper bound.
@@ -67,7 +67,6 @@ def best_class_assignment_cached(players: List[Player]) -> Tuple[float, Tuple[st
 # =======================================================
 # TEAM SPLITTING FUNCTIONS
 # =======================================================
-
 def compute_objective(team1: Team, team2: Team, gamma: float = 0.1, beta: float = 100, theta: float = 1,
                       HIGH_MMR_THRESHOLD: int = 5000) -> float:
     overall_disparity = abs(team1.total_mmr() - team2.total_mmr())
@@ -141,42 +140,15 @@ def calculate_total_cost(partition: List[List], iterations: int) -> Tuple[float,
 
 
 # =======================================================
-# FACTION MATCHUP HELPERS
-# =======================================================
-
-def load_faction_matchups(filepath: str = "../config/faction_matchups.json") -> List[dict]:
-    with open(filepath, "r") as f:
-        return json.load(f)
-
-
-def choose_faction_pair_for_margin(matchups: List[dict], predicted_margin: float) -> Tuple[str, str, float]:
-    best_pair = None
-    best_win_diff = None
-    min_diff = float('inf')
-    for entry in matchups:
-        f1 = entry["Faction1"]
-        f2 = entry["Faction2"]
-        win_diff = entry["WinDifference"]
-        diff = abs(predicted_margin + win_diff)
-        if diff < min_diff:
-            min_diff = diff
-            best_pair = (f1, f2)
-            best_win_diff = win_diff
-    return best_pair[0], best_pair[1], best_win_diff
-
-
-# =======================================================
 # MATCH OUTCOME PREDICTION
 # =======================================================
-
-def determine_match_outcome_probability(team1: Team, team2: Team, faction_win_diff: float,
-                                        k1: float = 1.0, k2: float = 1.0, k3: float = 0.1) -> float:
+# Faction considerations are removed; now outcome prediction depends solely on MMR and class scores.
+def determine_match_outcome_probability(team1: Team, team2: Team, k1: float = 1.0, k2: float = 1.0) -> float:
     mmr_diff = (team1.total_mmr() - team2.total_mmr()) / 1000.0
     pred_score_team1, _ = best_class_assignment_cached(team1.players)
     pred_score_team2, _ = best_class_assignment_cached(team2.players)
     pred_margin = (pred_score_team1 - pred_score_team2) / 1000.0
-    faction_effect = faction_win_diff / 10.0
-    X = k1 * mmr_diff + k2 * pred_margin + k3 * faction_effect
+    X = k1 * mmr_diff + k2 * pred_margin
     probability = 1.0 / (1.0 + math.exp(-X))
     return probability
 
@@ -226,6 +198,18 @@ def find_best_global_matches(players: List) -> List[Match]:
     else:
         team_split_iterations = 20  # fallback
 
+    # Adjust local search iterations based on player count:
+    if n == 12:
+        local_iterations = 200
+    elif n == 24:
+        local_iterations = 100
+    elif n == 36:
+        local_iterations = 50
+    elif n == 48:
+        local_iterations = 20
+    else:
+        local_iterations = 20
+
     # Improve the partition using randomized swaps.
     best_cost, best_partition = improve_partition(partition, iterations=100,
                                                   team_split_iterations=team_split_iterations)
@@ -244,18 +228,21 @@ def find_best_global_matches(players: List) -> List[Match]:
             _, assignment = best_class_assignment_cached(team.players)
             for player, role in zip(team.players, assignment):
                 player.set_class(role)
-    # Load faction matchup data once.
-    faction_matchups = load_faction_matchups()
+
+    # Now, instead of faction-based matching, assign random factions.
+    factions = ["Aserai", "Battania", "Empire", "Khuzait", "Sturgia", "Vlandia"]
+
+    # For each team pair, assign each team a random faction.
+    for team_pair in best_splits:
+        team_pair[0].set_faction(random.choice(factions))
+        team_pair[1].set_faction(random.choice(factions))
 
     # For each team pair, compute outcome probability and create the match.
     for i, (team1, team2) in enumerate(best_splits):
         pred_score_team1, _ = best_class_assignment_cached(team1.players)
         pred_score_team2, _ = best_class_assignment_cached(team2.players)
-        predicted_margin = pred_score_team1 - pred_score_team2  # Positive means team1 favored by troops.
-        faction1, faction2, faction_win_diff = choose_faction_pair_for_margin(faction_matchups, predicted_margin)
-        team1.set_faction(faction1)
-        team2.set_faction(faction2)
-        outcome_prob = determine_match_outcome_probability(team1, team2, faction_win_diff)
+        # Faction is no longer used; outcome probability is based solely on MMR and predicted troop scores.
+        outcome_prob = determine_match_outcome_probability(team1, team2)
         selected_map = random.choice(map_names)
         match = Match(i + 1, team1, team2, selected_map)
         match.set_outcome(outcome_prob)

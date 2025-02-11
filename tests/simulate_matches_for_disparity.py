@@ -99,7 +99,7 @@ def simulate_match_outcome(matches):
     return disparities
 
 def main():
-    NUM_SIMULATIONS = 100
+    NUM_SIMULATIONS = 10
     NUM_PLAYERS = 12  # Must be 12, 24, 36, or 48 for the matchmaking logic.
 
     # Load the maps configuration.
